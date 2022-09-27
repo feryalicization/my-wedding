@@ -15,12 +15,7 @@ import webbrowser
 
 xendit.api_key = "xnd_development_8pMOeEGQZsU7nniCemOfYX9A7c8pzVo7atEdecbo7odP5XzWapMdftLNgUieayL"
 
-gsheet_id = '1j68c4eLXfZHqtP8-p1OVOa9dSumjQQTdJ2ouPYRLSOs'
-sheet_name = 'data'
 
-gsheet_url = 'https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}'.format(gsheet_id, sheet_name)
-# df = pd.read_csv(gsheet_url)
-# a = df.head()
 
 
 app = Flask(__name__)
@@ -49,8 +44,8 @@ def index():
     return render_template('index.html')
     
 
-@app.route('/data')
-def data():
+@app.route('/data-orang-baik')
+def data_gift():
 
     # get
     data = []
@@ -74,6 +69,27 @@ def data():
     
     # return jsonify(filtered)
     return render_template('data.html', data=filtered, total=total)
+
+
+
+# @app.route('/data-kehadiran')
+# def data_kehadiran():
+
+#     # get
+#     data = []
+#     gsheet_id = '1j68c4eLXfZHqtP8-p1OVOa9dSumjQQTdJ2ouPYRLSOs'
+#     sheet_name = 'data'
+
+#     gsheet_url = 'https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}'.format(gsheet_id, sheet_name)
+#     df = pd.read_csv(gsheet_url)
+
+#     json_records = df.to_json(orient ='records')
+
+#     data = json.loads(json_records)
+ 
+    
+#     return "ok"
+#     # return render_template('data.html', data=data)
 
 
 
