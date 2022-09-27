@@ -36,10 +36,10 @@ def index():
         create_invoice = Invoice.create(
         external_id=nama,
         amount=nominal,
-        payer_email="fery@domain.com",
-        description="fery & putri wedding",
+        payer_email=f"{nama}@domain.com",
+        description="Putri & Fery Wedding",
         )
-
+       
         data = f'{create_invoice.invoice_url}'
 
         # webbrowser.open_new_tab(data)
@@ -49,25 +49,31 @@ def index():
     return render_template('index.html')
     
 
-@app.route('/create-payment')
-def create_payment():
-    # create
-    create_invoice = Invoice.create(
-    external_id="fery-6",
-    amount=20000,
-    payer_email="fery@domain.com",
-    description="fery & putri wedding",
-    )
-
-    # print(create_invoice.invoice_url)
+@app.route('/data')
+def data():
 
     # get
-    invoice = Invoice.get(
-    invoice_id=create_invoice.id,
-    )
-    print(invoice)
+    data = []
+    invoices = Invoice.list_all()
+    for x in invoices:
+        data.append({
+            "id": x.id,
+            "nama": x.external_id,
+            "status": x.status,
+            "amount": "Rp {:,}".format(x.amount),
+            "total": x.amount
+        })
+    
+    filtered = [x for x in data if (x['status'] == 'PAID')]
 
-    return "ok"
+    df = pd.DataFrame(filtered)
+    total = df['total'].sum()
+    total = "Rp {:,}".format(total)
+    print(total)
+
+    
+    # return jsonify(filtered)
+    return render_template('data.html', data=filtered, total=total)
 
 
 
